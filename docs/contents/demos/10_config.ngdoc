@@ -1,0 +1,62 @@
+@ngdoc overview
+@name config
+@description
+
+## Configuration
+
+Here's out to use the {@link api/ng.cx.config.cxConfigProvider cxConfigProvider} to store all your app-wide
+configuration and then retrieive the relevant parts to configure other providers during the `config` phase of the
+application.
+
+Also, during the executing phase, you can retrieve data directly from the {@link api/ng.cx.config.cxConfig cxConfig}
+service, if you need to configure controllers, directives or services thar are not wrapped in their own providers.
+
+<doc:example module="exampleApp" height="100">
+    <doc:source>
+        <script>
+            angular.module('exampleApp', ['ng.cx.config'])
+            .config(['cxConfigProvider', 'myServiceProvider', function (cxConfigProvider, myServiceProvider) {
+                var data = {
+                    myService: {
+                        name: 'world'
+                    },
+                    moreData: {
+                        foo: 'bar'
+                    }
+                };
+                cxConfigProvider.merge(data);
+                myServiceProvider.configure(cxConfigProvider.get('myService'));
+            }])
+            .provider('myService', function () {
+                var config = { name: 'Unknown' };
+                this.configure = function (data) {
+                    // note this is a shallow extend
+                    angular.extend(config, data);
+                };
+                this.$get = [function () {
+                    return {
+                        hello: function () {
+                            return 'Hello ' + config.name;
+                        }
+                    }
+                }];
+            })
+            .controller('exampleCtrl', ['$scope', 'cxConfig', 'myService', function ($scope, cxConfig, myService) {
+                // retrieve the whole configuration (a deep clone)
+                $scope.config = cxConfig.get();
+                $scope.hello = myService.hello();
+            }]);
+        </script>
+        <style>
+            form {
+                padding: 10px;
+            }
+        </style>
+        <div data-ng-controller="exampleCtrl">
+            <form name="exampleForm">
+                <p><strong>Hello?</strong> {{hello}}</p>
+                <p><strong>Config:</strong> {{config}}</p>
+            </form>
+        </div>
+    </doc:source>
+</doc:example>

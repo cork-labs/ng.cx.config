@@ -1,0 +1,28 @@
+{
+  "generator-nglib": {
+    "github.username": "ef-ctx",
+    "license.name": "MIT",
+    "license.url": "https://raw.githubusercontent.com/EFEducationFirstMobile/oss/master/LICENSE",
+    "author.name": "EF CTX",
+    "author.email": "ctx@ef.com",
+    "author.url": "http://ef.com",
+    "has.sass": false,
+    "use.travis": true,
+    "project.name": "ng.cx.config",
+    "project.description": "AngularJS configuration provider and service.",
+    "bower.id": "ng.cx.config",
+    "npm.id": "ng.cx.config",
+    "angular.module": "ng.cx.config",
+    "has.tpl": false,
+    "has.css": false,
+    "has.less": false,
+    "has.docs": true,
+    "use.git": true,
+    "github.reponame": "ng.cx.config",
+    "homepage.url": "https://github.com/ef-ctx/ng.cx.config",
+    "docs.url": "https://github.com/ef-ctx/ng.cx.config",
+    "bugs.url": "https://github.com/ef-ctx/ng.cx.config/issues",
+    "travis.id": "ef-ctx/ng.cx.config",
+    "repo.url": "git@github.com:ef-ctx/ng.cx.config.git"
+  }
+}

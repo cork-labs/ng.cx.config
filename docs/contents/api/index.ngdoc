@@ -1,0 +1,15 @@
+@ngdoc overview
+@name API Reference
+@description
+
+# ng.cx.config API Reference
+
+> Welcome to the **ng.cx.config** API reference.
+
+If you want to know how **ng.cx.config** works, checkout the {@link guide/ guide} and the {@link demos/ demos}.
+
+
+## Modules
+
+- **[ng.cx.config](#/api/ng.cx.config)** - Provides a provider and a service to store application wide config data.
+
