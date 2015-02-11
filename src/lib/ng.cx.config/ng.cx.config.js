@@ -95,6 +95,20 @@
              * @description
              * Returns the current config value for the given config path.
              *
+             * If the requested value is not defined you will **throw an error**. To avoid this you can pass a second
+             * parameter specifying which value to fallback to. Even `null` or `undefined` are OK.
+             *
+             * Please note, that the fallback is only used if the undefined value corresponds to last segment of the
+             * requested path.
+             *
+             * Examples:
+             *
+             * - Given `foo.bar.baz` exists, `get('foo.bar.qux')` results in an **error**.
+             *
+             * - Given `foo.bar.baz` exists, `get('foo.bar.qux', 'fallback')` > `fallback`.
+             *
+             * - Given `foo.bar.baz` exists, `get('foo.qux.quux', 'fallback')`, always results in an **error**, regardless of a fallback being provided.
+             *
              * @param {string} path         The config path separated by dots. Ex: `'foo.bar'`.
              * @param {*=}     defaultValue Optional value to return in case `.bar` does not exist in the config.
              *
@@ -153,8 +167,8 @@
              * @name ng.cx.config.cxConfig
              *
              * @description
-             * Configuration service, provides an interface to read and write config values as well as loading them from
-             * remote URLs.
+             * Configuration service, provides an interface to read and write config values during the `run` phase of the
+             * application.
              *
              * See also the {@link ng.cx.config.cxConfigProvider cxConfigProvider} which allows you to interact with config
              * data during the `config` phase of the application.

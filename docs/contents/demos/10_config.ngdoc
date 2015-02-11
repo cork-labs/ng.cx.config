@@ -1,5 +1,5 @@
 @ngdoc overview
-@name config
+@name Configuring Services
 @description
 
 ## Configuration
@@ -47,16 +47,9 @@ service, if you need to configure controllers, directives or services thar are n
                 $scope.hello = myService.hello();
             }]);
         </script>
-        <style>
-            form {
-                padding: 10px;
-            }
-        </style>
-        <div data-ng-controller="exampleCtrl">
-            <form name="exampleForm">
-                <p><strong>Hello?</strong> {{hello}}</p>
-                <p><strong>Config:</strong> {{config}}</p>
-            </form>
+        <div data-ng-controller="exampleCtrl" class="container">
+            <p><strong>Hello?</strong> {{hello}}</p>
+            <p><strong>Config:</strong> {{config}}</p>
         </div>
     </doc:source>
 </doc:example>

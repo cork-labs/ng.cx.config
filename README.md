@@ -4,6 +4,7 @@
 
 > AngularJS configuration provider and service.
 
+
 ## Getting Started
 
 Add **ng.cx.config** to you project.
@@ -14,8 +15,94 @@ Via bower:
 $ bower install --save ng.cx.config
 ```
 
-Include the following JS/CSS/assets in your build.
+Include the following JS files in your build:
 - `dist/ng.cx.config.js` OR `dist/ng.cx.config.min.js`
+
+
+## Quick Guide
+
+
+### Storing configuration in cxConfigProvider
+
+The `ng.cx.config` module provides a provider to store your app-wide configuration and configure other providers
+during the config phase of the app.
+
+AngularJs is not very *async friendly* until the app is actual running so if you are loading this configuration from an
+API you are better off doing it with bare-bones XHR before you actually bootstrap the app and then storing it in global
+scope (yuck!).
+
+```javascript
+clConfigProvider.merge(window.config);
+```
+
+This is a bad idea both because it will delay your app bootstrap until the XHR request complete and because you are
+relaying data to the app via the global scope.
+
+Our advice is to template your config into an angular module that defines a constant and then load it into the config.
+
+```javascript
+app.value('configData', {....});
+
+...
+
+app.config(['configData', function(configData) {
+    clConfigProvider.merge(window.config);
+}]);
+```
+
+
+### Using the cxConfigProvider to configure services (config phase)
+
+To read data, you can use a convenient dot notation to *deep read* configuration values.
+
+All retrieved configuration is a deep clone of the actual stored data, so you don't risk modifying the configuration
+after retrieving objects from it.
+
+```javascript
+someServiceProvider.configure(clConfigProvider.get('foo.bar.someServiceSettings'));
+```
+
+
+### Using the cxConfig service to retrieve data (run phase)
+
+If you have controllers, directives or services not wrapped in their own providers that need configuration data you will
+need to read the config data during the run phase of the app.
+
+```javascript
+module.controller('someController', ['cxConfig' , function (cxConfig) {
+    var bar = cxConfig.get('foo.bar');
+});
+
+```
+
+### Strictness and defaults
+
+If some data is only available under some circumstances - such as a specific environmnt - you can provide a default as
+a second parameter to `cxConfig.get()` to avoid getting an error while reading.
+
+Any value will behave as a fallback, even `null` or `undefined`.
+
+```javascript
+module.controller('someController', ['cxConfig' , function (cxConfig) {
+    var baz = cxConfig.get('foo.baz', 'default');
+});
+```
+
+**Note:** the fallback is only used if the missing value corresponds to last segment of the equested path.
+
+Given the following data:
+
+```javascript
+foo: {
+  bar: {
+    baz: 42
+  }
+}
+```
+
+- `get('foo.bar.qux')` results in an **error**.
+- `get('foo.bar.qux', 'fallback')` results in `'fallback'`.
+- `get('foo.qux.quux', 'fallback')`, always results in an **error**, regardless of a fallback being provided.
 
 
 ## Contributing
