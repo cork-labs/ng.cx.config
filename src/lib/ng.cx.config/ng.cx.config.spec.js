@@ -245,4 +245,3 @@ describe('ng.cx.config', function () {
     });
 
 });
-
